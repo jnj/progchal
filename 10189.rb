@@ -41,16 +41,17 @@ end
 
 fieldnum = 1
 while true
-  field = Hash.new {|h,k| h[k] = '.'}
+  field = {}
   height, width = gets.split.map {|s| s.to_i}
   exit(0) if height < 1 or width < 1
 
-  height.times do |j|
+  (0...height).each do |row|
     line = gets.strip
-    line.each_with_index do |b, i|
-      field[[i,j]] = b
+    line.split(//).each_with_index do |b, col|
+      field[[col, row]] = b
     end
   end
+  
   render(sums(field, width, height), fieldnum, width, height)
   fieldnum += 1
 end
