@@ -1,8 +1,4 @@
 
-def in_bounds?(col, row, width, height)
-  (0...height).include?(row) and (0...width).include?(col)
-end
-
 def neighbors(col, row)
   res = []
   a = [-1, 0, 1]
@@ -22,7 +18,6 @@ def sums(field, width, height)
         newfield[[col,row]] = '*'
         next
       end
-      neighbors(col, row).select {|c,r| in_bounds?(c,r,width,height)}
       sum = neighbors(col, row).inject(0) {|s, n| s + (field[n] == '*' ? 1 : 0)}
       newfield[[col,row]] = sum
     end
