@@ -1,5 +1,8 @@
 package progchal.ch1;
 
+/**
+ * 1.6.4
+ */
 public class Lcd {
 
     private final int s;
