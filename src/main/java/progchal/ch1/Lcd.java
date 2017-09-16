@@ -7,12 +7,31 @@ public class Lcd {
 
     private final int s;
     private final int lastRow;
-    private final String output;
+    private String output;
 
     Lcd(int n, int s) {
         this.s = s;
         lastRow = 2 * s + 2;
-        final int digitHeight = lastRow + 1;
+        output = renderAllRows(toDigitsArray(n));
+    }
+
+    private String renderAllRows(int[] digits) {
+        StringBuilder allDigitsBuf = new StringBuilder();
+
+        for (int i = 0; i < lastRow + 1; i++) {
+            StringBuilder rowBuf = new StringBuilder();
+
+            for (int row = 0; row < digits.length; row++) {
+                drawRow(digits[row], row == digits.length - 1, i, rowBuf);
+            }
+
+            allDigitsBuf.append(rowBuf);
+        }
+
+        return allDigitsBuf.toString();
+    }
+
+    private int[] toDigitsArray(int n) {
         String s1 = String.valueOf(n);
         int[] digits = new int[s1.length()];
         int i = 0;
@@ -20,21 +39,7 @@ public class Lcd {
         for (char c : s1.toCharArray()) {
             digits[i++] = Character.digit(c, 10);
         }
-
-        StringBuilder rendered = new StringBuilder();
-
-        for (i = 0; i < digitHeight; i++) {
-            StringBuilder rowBuf = new StringBuilder();
-
-            for (int j = 0; j < digits.length; j++) {
-                int digit = digits[j];
-                drawRow(digit, j == digits.length - 1, i, rowBuf);
-            }
-
-            rendered.append(rowBuf);
-        }
-
-        output = rendered.toString();
+        return digits;
     }
 
     @Override
