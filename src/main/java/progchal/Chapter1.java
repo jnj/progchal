@@ -6,9 +6,9 @@ public class Chapter1 {
 
     public static void main(String[] args) {
         Expenses expenses = new Expenses(3);
-        expenses.addCost(10.00);
-        expenses.addCost(20.00);
-        expenses.addCost(30.00);
+        expenses.addCost(5.00);
+        expenses.addCost(6.00);
+        expenses.addCost(7.00);
         System.out.println(expenses.compute());
     }
 
@@ -115,7 +115,7 @@ public class Chapter1 {
             costs[i++] = (int) (cost * 100);
         }
 
-        int compute() {
+        double compute() {
             Arrays.sort(costs);
             computeAvg();
             partition();
@@ -162,7 +162,7 @@ public class Chapter1 {
                 }
             }
 
-            return totalExchanged;
+            return totalExchanged / 100.0;
         }
 
         private void computeAvg() {
