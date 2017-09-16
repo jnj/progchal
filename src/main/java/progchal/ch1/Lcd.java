@@ -9,6 +9,11 @@ public class Lcd {
     private final int lastRow;
     private String output;
 
+    public static void main(String[] args) {
+        Lcd lcd = new Lcd(42902287, 5);
+        System.out.println(lcd.toString());
+    }
+
     Lcd(int n, int s) {
         this.s = s;
         lastRow = 2 * s + 2;
@@ -18,11 +23,11 @@ public class Lcd {
     private String renderAllRows(int[] digits) {
         StringBuilder allDigitsBuf = new StringBuilder();
 
-        for (int i = 0; i < lastRow + 1; i++) {
+        for (int row = 0; row < lastRow + 1; row++) {
             StringBuilder rowBuf = new StringBuilder();
 
-            for (int row = 0; row < digits.length; row++) {
-                drawRow(digits[row], row == digits.length - 1, i, rowBuf);
+            for (int i = 0; i < digits.length; i++) {
+                drawRow(digits[i], i == digits.length - 1, row, rowBuf);
             }
 
             allDigitsBuf.append(rowBuf);
