@@ -3,6 +3,7 @@ package progchal.ch1;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -54,7 +55,7 @@ public class Bitmap {
                 fill(parseInt(parts[1]), parseInt(parts[2]), parts[3].charAt(0));
                 break;
             case "S":
-                write(parts[1]);
+                write(parts[1], System.out);
                 break;
             case "X":
                 System.exit(0);
@@ -62,17 +63,12 @@ public class Bitmap {
         }
     }
 
-    private void write(String name) {
-        System.out.println(name + ".bmp");
-        for (int r = 0; r < h; r++) {
-            for (int c = 0; c < w; c++) {
-                System.out.print(img[r * w + c]);
-            }
-            System.out.print('\n');
-        }
+    void write(String name, PrintStream ps) {
+        ps.println(name + ".bmp");
+        ps.println(toString());
     }
 
-    private void fill(int x, int y, char c) {
+    void fill(int x, int y, char c) {
         Boolean[] region = new Boolean[w * h];
         int index = y * w + x;
         char regionColor = img[index];
@@ -137,18 +133,14 @@ public class Bitmap {
                     if (nNeighbor.notEqual(x, y)) {
                         Boolean status = region[nNeighbor.index()];
 
-                        if (status == Boolean.TRUE) {
-                            region[z] = img[z] == regionColor;
+                        if (status == null) {
+                            findRegion(nNeighbor.x, nNeighbor.y, nNeighbor.index(), region, regionColor);
+                        }
+
+                        if (region[nNeighbor.index()] == Boolean.TRUE) {
+                            region[z] = true;
                             updateNeighborsRegion(region, img[z], neighbors);
                             return;
-                        } else if (status == null) {
-                            findRegion(nNeighbor.x, nNeighbor.y, nNeighbor.index(), region, regionColor);
-
-                            if (region[nNeighbor.index()] == Boolean.TRUE) {
-                                region[z] = true;
-                                updateNeighborsRegion(region, img[z], neighbors);
-                                return;
-                            }
                         }
                     }
                 }
@@ -173,15 +165,15 @@ public class Bitmap {
         return i >= 0 && i < h;
     }
 
-    private void rect(int x1, int y1, int x2, int y2, char c) {
-        int start = y1 * w + x1;
-        int stop = y2 * w + x2;
-        for (int i = start; i <= stop; i++) {
-            img[i] = c;
+    void rect(int x1, int y1, int x2, int y2, char c) {
+        for (int i = x1; i <= x2; i++) {
+            for (int j = y1; j <= y2; j++) {
+                label(i, j, c);
+            }
         }
     }
 
-    private void hLine(int x1, int x2, int y, char c) {
+    void hLine(int x1, int x2, int y, char c) {
         int startX = Math.min(x1, x2);
         int stopX = Math.max(x1, x2);
         int r = y * w;
@@ -190,7 +182,7 @@ public class Bitmap {
         }
     }
 
-    private void vLine(int x, int y1, int y2, char c) {
+    void vLine(int x, int y1, int y2, char c) {
         int startY = Math.min(y1, y2);
         int stopY = Math.max(y1, y2);
 
@@ -199,15 +191,31 @@ public class Bitmap {
         }
     }
 
-    private void label(int x, int y, char c) {
+    void label(int x, int y, char c) {
         img[y * w + x] = c;
     }
 
-    private void create(int m, int n) {
+    void create(int m, int n) {
         w = m;
         h = n;
         img = new char[w * h];
         Arrays.fill(img, 'O');
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder buf = new StringBuilder();
+
+        for (int r = 0; r < h; r++) {
+            for (int c = 0; c < w; c++) {
+                buf.append(img[r * w + c]);
+            }
+            if (r < h - 1) {
+                buf.append('\n');
+            }
+        }
+
+        return buf.toString();
     }
 
     private void clear() {
