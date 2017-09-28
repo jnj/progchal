@@ -60,7 +60,7 @@ public class Bitmap {
         }
     }
 
-    void write(String name, PrintStream ps) {
+    private void write(String name, PrintStream ps) {
         ps.println(name + ".bmp");
         ps.println(toString());
     }
@@ -112,14 +112,11 @@ public class Bitmap {
         }
     }
 
-    void hLine(int xx1, int xx2, int yy, char c) {
-        int x1 = xx1 - 1;
-        int x2 = xx2 - 1;
-        int y = yy - 1;
-        int startX = Math.min(x1, x2);
-        int stopX = Math.max(x1, x2);
-        int r = y * w;
-        for (int i = startX; i <= stopX; i++) {
+    void hLine(int x1, int x2, int y, char c) {
+        int xStart = x1 - 1;
+        int xStop = x2 - 1;
+        int r = (y - 1) * w;
+        for (int i = xStart; i <= xStop; i++) {
             img[r + i] = c;
         }
     }
