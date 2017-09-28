@@ -37,8 +37,7 @@ class Interpreter {
             case 0:
                 if (reg[d3(op)] != 0) {
                     ramIndex = reg[d];
-                } else {
-                    ramIndex++;
+                    return;
                 }
                 break;
             case 1:
@@ -46,42 +45,36 @@ class Interpreter {
                 break;
             case 2:
                 reg[d] = d3(op);
-                ramIndex++;
                 break;
             case 3:
                 reg[d] += d3(op);
                 reg[d] %= 1000;
-                ramIndex++;
                 break;
             case 4:
                 reg[d] *= d3(op);
                 reg[d] %= 1000;
-                ramIndex++;
                 break;
             case 5:
                 reg[d] = reg[d3(op)];
-                ramIndex++;
                 break;
             case 6:
                 reg[d] += reg[d3(op)];
                 reg[d] %= 1000;
-                ramIndex++;
                 break;
             case 7:
                 reg[d] *= reg[d3(op)];
                 reg[d] %= 1000;
-                ramIndex++;
                 break;
             case 8:
                 reg[d] = ram[reg[d3(op)]];
-                ramIndex++;
                 break;
             case 9:
                 ram[reg[d3(op)]] = reg[d];
-                ramIndex++;
                 break;
             default:
         }
+
+        ramIndex++;
     }
 
     private static int d1(int i) {
