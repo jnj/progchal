@@ -95,6 +95,25 @@ public class BitmapTest {
         );
     }
 
+    @Test
+    public void unreachableRegion() {
+        bmp.create(10, 10);
+        bmp.vLine(3, 1, 10, '|');
+        bmp.hLine(1, 2, 3, '-');
+        bmp.fill(5, 2, 'X');
+        assertBitmap(
+                "OO|XXXXXXX\n" +
+                "OO|XXXXXXX\n" +
+                "--|XXXXXXX\n" +
+                "OO|XXXXXXX\n" +
+                "OO|XXXXXXX\n" +
+                "OO|XXXXXXX\n" +
+                "OO|XXXXXXX\n" +
+                "OO|XXXXXXX\n" +
+                "OO|XXXXXXX\n" +
+                "OO|XXXXXXX");
+    }
+
     private void assertBitmap(String expected) {
         assertEquals(expected, bmp.toString());
     }
