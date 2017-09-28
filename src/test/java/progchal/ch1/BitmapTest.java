@@ -24,18 +24,18 @@ public class BitmapTest {
         bmp.label(1, 2, 'R');
         assertBitmap(
                 "OO\n" +
-                "OO\n" +
-                "OR"
+                "RO\n" +
+                "OO"
         );
     }
 
     @Test
     public void horizLine() {
         bmp.create(10, 3);
-        bmp.hLine(2, 8, 1, '-');
+        bmp.hLine(2, 8, 2, '-');
         assertBitmap(
                 "OOOOOOOOOO\n" +
-                "OO-------O\n" +
+                "O-------OO\n" +
                 "OOOOOOOOOO"
         );
     }
@@ -43,12 +43,12 @@ public class BitmapTest {
     @Test
     public void vertLine() {
         bmp.create(5, 4);
-        bmp.vLine(2, 0, 3, '|');
+        bmp.vLine(2, 1, 3, '|');
         assertBitmap(
-                "OO|OO\n" +
-                "OO|OO\n" +
-                "OO|OO\n" +
-                "OO|OO"
+                "O|OOO\n" +
+                "O|OOO\n" +
+                "O|OOO\n" +
+                "OOOOO"
         );
     }
 
@@ -60,19 +60,19 @@ public class BitmapTest {
                 "OOOOOOOOOOOOOOOOOOOO\n" +
                 "OOOOOOOOOOOOOOOOOOOO\n" +
                 "OOOOOOOOOOOOOOOOOOOO\n" +
+                "OO###############OOO\n" +
+                "OO###############OOO\n" +
+                "OO###############OOO\n" +
+                "OO###############OOO\n" +
+                "OO###############OOO\n" +
+                "OO###############OOO\n" +
+                "OO###############OOO\n" +
+                "OO###############OOO\n" +
+                "OO###############OOO\n" +
+                "OO###############OOO\n" +
+                "OO###############OOO\n" +
+                "OO###############OOO\n" +
                 "OOOOOOOOOOOOOOOOOOOO\n" +
-                "OOO###############OO\n" +
-                "OOO###############OO\n" +
-                "OOO###############OO\n" +
-                "OOO###############OO\n" +
-                "OOO###############OO\n" +
-                "OOO###############OO\n" +
-                "OOO###############OO\n" +
-                "OOO###############OO\n" +
-                "OOO###############OO\n" +
-                "OOO###############OO\n" +
-                "OOO###############OO\n" +
-                "OOO###############OO\n" +
                 "OOOOOOOOOOOOOOOOOOOO\n" +
                 "OOOOOOOOOOOOOOOOOOOO"
         );

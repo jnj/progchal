@@ -4,10 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 import static java.lang.Integer.parseInt;
 
@@ -68,91 +65,33 @@ public class Bitmap {
         ps.println(toString());
     }
 
-    void fill(int x, int y, char c) {
+    void fill(int xx, int yy, char c) {
+        int x = xx - 1;
+        int y = yy - 1;
         Boolean[] region = new Boolean[w * h];
         int index = y * w + x;
         char regionColor = img[index];
-        region[index] = Boolean.TRUE;
-        updateNeighborsRegion(region, regionColor, new EdgeNeighbors(x, y));
 
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
-                index = i * w + j;
-                if (region[index] == null) {
-                    findRegion(j, i, index, region, regionColor);
+        Set<Pixel> seen = new HashSet<>();
+        Queue<Pixel> queue = new LinkedList<>();
+        queue.add(new Pixel(x, y));
+
+        while (!queue.isEmpty()) {
+            Pixel p = queue.remove();
+            seen.add(p);
+            if (p.color() == regionColor) {
+                region[p.index()] = true;
+                for (Pixel n : p.neighbors()) {
+                    if (!seen.contains(n)) {
+                        queue.add(n);
+                    }
                 }
             }
         }
 
         for (int i = 0; i < region.length; i++) {
-            Boolean b = region[i];
-            if (Boolean.TRUE == b) {
+            if (Boolean.TRUE == region[i]) {
                 img[i] = c;
-            }
-        }
-    }
-
-    /**
-     * Determines the region of pixel (x, y).
-     */
-    private void findRegion(int x, int y, int z, Boolean[] region, char regionColor) {
-        if (region[z] != null) {
-            // status already known.
-            return;
-        } else if (img[z] != regionColor) {
-            region[z] = false;
-            return;
-        }
-
-        EdgeNeighbors neighbors = new EdgeNeighbors(x, y);
-        // determine status of neighboring pixels.
-        boolean some = false;
-        boolean none = true;
-        boolean unkn = true;
-
-        for (Pixel n : neighbors) {
-            none = none && region[n.index()] == Boolean.FALSE;
-            unkn = unkn && region[n.index()] == null;
-
-            if (region[n.index()] == Boolean.TRUE) {
-                some = true;
-                unkn = false;
-                none = false;
-                break;
-            }
-        }
-
-        if (none) {
-            region[z] = false;
-        } else if (some) {
-            region[z] = true;
-            updateNeighborsRegion(region, img[z], neighbors);
-        } else if (unkn) {
-            for (Pixel neighbor : neighbors) {
-                for (Pixel nNeighbor : new EdgeNeighbors(neighbor)) {
-                    if (nNeighbor.notEqual(x, y)) {
-                        Boolean status = region[nNeighbor.index()];
-
-                        if (status == null) {
-                            findRegion(nNeighbor.x, nNeighbor.y, nNeighbor.index(), region, regionColor);
-                        }
-
-                        if (region[nNeighbor.index()] == Boolean.TRUE) {
-                            region[z] = true;
-                            updateNeighborsRegion(region, img[z], neighbors);
-                            return;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private void updateNeighborsRegion(Boolean[] region, char c, EdgeNeighbors neighbors) {
-        for (Pixel n : neighbors) {
-            int i = n.index();
-            if (null == region[i]) {
-                region[i] = c == n.color();
             }
         }
     }
@@ -173,7 +112,10 @@ public class Bitmap {
         }
     }
 
-    void hLine(int x1, int x2, int y, char c) {
+    void hLine(int xx1, int xx2, int yy, char c) {
+        int x1 = xx1 - 1;
+        int x2 = xx2 - 1;
+        int y = yy - 1;
         int startX = Math.min(x1, x2);
         int stopX = Math.max(x1, x2);
         int r = y * w;
@@ -183,16 +125,13 @@ public class Bitmap {
     }
 
     void vLine(int x, int y1, int y2, char c) {
-        int startY = Math.min(y1, y2);
-        int stopY = Math.max(y1, y2);
-
-        for (int y = startY; y <= stopY; y++) {
-            label(x, y, c);
+        for (int i = y1; i <= y2; i++) {
+            label(x, i, c);
         }
     }
 
     void label(int x, int y, char c) {
-        img[y * w + x] = c;
+        img[(y - 1) * w + (x - 1)] = c;
     }
 
     void create(int m, int n) {
@@ -265,6 +204,18 @@ public class Bitmap {
                    "x=" + x +
                    ", y=" + y +
                    '}';
+        }
+
+        @Override
+        public int hashCode() {
+            int x = 17;
+            x = 31 * x + this.x;
+            x = 31 * x + this.y;
+            return x;
+        }
+
+        Iterable<Pixel> neighbors() {
+            return new EdgeNeighbors(this);
         }
     }
 
