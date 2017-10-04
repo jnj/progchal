@@ -209,4 +209,19 @@ public class ChessboardTest {
         assertFalse(board.canQueenCheck(4, 4));
     }
 
+    @Test
+    public void queenCanCheck() {
+        int i = 0;
+        Chessboard board = new Chessboard();
+        board.setRow(i++, "........");
+        board.setRow(i++, ".Q......");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "....k...");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.init();
+        assertTrue(board.canQueenCheck(4, 4));
+    }
 }
