@@ -62,11 +62,35 @@ public class Chessboard {
         }
     }
 
+    boolean canBishopCheck(int ki, int kj) {
+        return scanDiag(ki, kj, 'b', -1, -1) ||
+               scanDiag(ki, kj, 'b', +1, -1) ||
+               scanDiag(ki, kj, 'b', +1, -1) ||
+               scanDiag(ki, kj, 'b', +1, +1);
+    }
+
+    private boolean scanDiag(int ki, int kj, char piece, int id, int jd) {
+        char king = pieces[ki][kj];
+
+        for (int i = ki + id, j = kj + jd; isValidPosition(i, j); i += id, j += jd) {
+            char p = pieces[i][j];
+
+            if (p == '.') {
+                continue;
+            }
+
+            return canCheck(king, piece, i, j);
+        }
+
+        return false;
+    }
+
     boolean canPawnCheck(int ki, int kj) {
-        char k = pieces[ki][kj];
-        assert k == 'K' || k == 'k';
-        int py = k == 'K' ? ki - 1 : ki + 1;
-        return canCheck(k, 'p', py, kj - 1) || canCheck(k, 'p', py, kj + 1);
+        char king = pieces[ki][kj];
+        return canCheck(king, 'p', ki - 1, kj - 1) ||
+               canCheck(king, 'p', ki - 1, kj + 1) ||
+               canCheck(king, 'p', ki + 1, kj - 1) ||
+               canCheck(king, 'p', ki + 1, kj + 1);
     }
 
     boolean canRookCheck(int ki, int kj) {
@@ -78,15 +102,15 @@ public class Chessboard {
 
     private boolean scanColumn(int ki, int kj, char piece, int delta) {
         char king = pieces[ki][kj];
-        int i = ki + delta;
 
-        while (isValidPosition(i, kj)) {
+        for (int i = ki + delta; isValidPosition(i, kj); i += delta) {
             char p = pieces[i][kj];
-            i += delta;
+
             if (p == '.') {
                 continue;
             }
-            return sameKind(piece, p) && opposing(king, p);
+
+            return canCheck(king, piece, i, kj);
         }
 
         return false;
@@ -94,15 +118,15 @@ public class Chessboard {
 
     private boolean scanRow(int ki, int kj, char piece, int delta) {
         char king = pieces[ki][kj];
-        int i = kj + delta;
 
-        while (isValidPosition(i, kj)) {
+        for (int i = kj + delta; isValidPosition(i, kj); i += delta) {
             char p = pieces[ki][i];
-            i += delta;
+
             if (p == '.') {
                 continue;
             }
-            return sameKind(piece, p) && opposing(king, p);
+
+            return canCheck(king, piece, ki, i);
         }
 
         return false;

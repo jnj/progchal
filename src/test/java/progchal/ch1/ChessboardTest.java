@@ -114,6 +114,50 @@ public class ChessboardTest {
         board.setRow(i++, "........");
         board.init();
         assertTrue(board.canRookCheck(0, 3));
+
+        i = 0;
+        board = new Chessboard();
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "k.....R.");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.init();
+        assertTrue(board.canRookCheck(3, 0));
     }
 
+    @Test
+    public void bishopMustBeOnDiagonal() {
+        int i = 0;
+        Chessboard board = new Chessboard();
+        board.setRow(i++, "...k....");
+        board.setRow(i++, "......B.");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.init();
+        assertFalse(board.canBishopCheck(0, 4));
+    }
+
+    @Test
+    public void bishopMustHaveClearPath() {
+        int i = 0;
+        Chessboard board = new Chessboard();
+        board.setRow(i++, "...k....");
+        board.setRow(i++, "........");
+        board.setRow(i++, ".....r..");
+        board.setRow(i++, "........");
+        board.setRow(i++, ".......B");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.init();
+        assertFalse(board.canBishopCheck(0, 4));
+    }
 }
