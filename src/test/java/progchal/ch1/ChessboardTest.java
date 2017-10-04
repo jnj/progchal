@@ -69,6 +69,22 @@ public class ChessboardTest {
     }
 
     @Test
+    public void pawnCanOnlyMoveForward() {
+        int i = 0;
+        Chessboard board = new Chessboard();
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "..P.....");
+        board.setRow(i++, ".k......");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.init();
+        assertFalse(board.canPawnCheck(3, 1));
+    }
+
+    @Test
     public void rookMustBeInSameRowOrColumn() {
         int i = 0;
         Chessboard board = new Chessboard();

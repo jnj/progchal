@@ -71,10 +71,10 @@ public class Chessboard {
 
     boolean canPawnCheck(int ki, int kj) {
         char king = pieces[ki][kj];
-        return canCheck(king, 'p', ki - 1, kj - 1) ||
-               canCheck(king, 'p', ki - 1, kj + 1) ||
-               canCheck(king, 'p', ki + 1, kj - 1) ||
-               canCheck(king, 'p', ki + 1, kj + 1);
+        return (canCheck(king, 'p', ki - 1, kj - 1) && king == 'K') ||
+               (canCheck(king, 'p', ki - 1, kj + 1) && king == 'K') ||
+               (canCheck(king, 'p', ki + 1, kj - 1) && king == 'k') ||
+               (canCheck(king, 'p', ki + 1, kj + 1) && king == 'k');
     }
 
     boolean canRookCheck(int ki, int kj) {
