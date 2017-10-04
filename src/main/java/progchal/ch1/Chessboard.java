@@ -69,6 +69,32 @@ public class Chessboard {
                scanDiag(ki, kj, 'b', +1, +1);
     }
 
+    boolean canPawnCheck(int ki, int kj) {
+        char king = pieces[ki][kj];
+        return canCheck(king, 'p', ki - 1, kj - 1) ||
+               canCheck(king, 'p', ki - 1, kj + 1) ||
+               canCheck(king, 'p', ki + 1, kj - 1) ||
+               canCheck(king, 'p', ki + 1, kj + 1);
+    }
+
+    boolean canRookCheck(int ki, int kj) {
+        return scanColumn(ki, kj, 'r', -1) ||
+               scanColumn(ki, kj, 'r', +1) ||
+               scanRow(ki, kj, 'r', -1) ||
+               scanRow(ki, kj, 'r', +1);
+    }
+
+    boolean canQueenCheck(int ki, int kj) {
+        return scanDiag(ki, kj, 'q', -1, -1) ||
+               scanDiag(ki, kj, 'q', +1, -1) ||
+               scanDiag(ki, kj, 'q', +1, -1) ||
+               scanDiag(ki, kj, 'q', +1, +1) ||
+               scanColumn(ki, kj, 'q', -1) ||
+               scanColumn(ki, kj, 'q', +1) ||
+               scanRow(ki, kj, 'q', -1) ||
+               scanRow(ki, kj, 'q', +1);
+    }
+
     private boolean scanDiag(int ki, int kj, char piece, int id, int jd) {
         char king = pieces[ki][kj];
 
@@ -83,21 +109,6 @@ public class Chessboard {
         }
 
         return false;
-    }
-
-    boolean canPawnCheck(int ki, int kj) {
-        char king = pieces[ki][kj];
-        return canCheck(king, 'p', ki - 1, kj - 1) ||
-               canCheck(king, 'p', ki - 1, kj + 1) ||
-               canCheck(king, 'p', ki + 1, kj - 1) ||
-               canCheck(king, 'p', ki + 1, kj + 1);
-    }
-
-    boolean canRookCheck(int ki, int kj) {
-        return scanColumn(ki, kj, 'r', -1) ||
-               scanColumn(ki, kj, 'r', +1) ||
-               scanRow(ki, kj, 'r', -1) ||
-               scanRow(ki, kj, 'r', +1);
     }
 
     private boolean scanColumn(int ki, int kj, char piece, int delta) {

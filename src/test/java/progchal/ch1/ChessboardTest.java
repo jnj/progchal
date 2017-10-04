@@ -142,7 +142,7 @@ public class ChessboardTest {
         board.setRow(i++, "........");
         board.setRow(i++, "........");
         board.init();
-        assertFalse(board.canBishopCheck(0, 4));
+        assertFalse(board.canBishopCheck(0, 3));
     }
 
     @Test
@@ -158,6 +158,55 @@ public class ChessboardTest {
         board.setRow(i++, "........");
         board.setRow(i++, "........");
         board.init();
-        assertFalse(board.canBishopCheck(0, 4));
+        assertFalse(board.canBishopCheck(0, 3));
     }
+
+    @Test
+    public void bishopCanCheck() {
+        int i = 0;
+        Chessboard board = new Chessboard();
+        board.setRow(i++, "...k....");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, ".......B");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.init();
+        assertTrue(board.canBishopCheck(0, 3));
+    }
+
+    @Test
+    public void queenMustBeAlongVertHorizOrDiag() {
+        int i = 0;
+        Chessboard board = new Chessboard();
+        board.setRow(i++, "...k....");
+        board.setRow(i++, "........");
+        board.setRow(i++, "..Q.....");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.init();
+        assertFalse(board.canBishopCheck(0, 3));
+    }
+
+    @Test
+    public void queenMustHaveClearPath() {
+        int i = 0;
+        Chessboard board = new Chessboard();
+        board.setRow(i++, "........");
+        board.setRow(i++, ".Q......");
+        board.setRow(i++, "........");
+        board.setRow(i++, "...r....");
+        board.setRow(i++, "....k...");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.init();
+        assertFalse(board.canQueenCheck(4, 4));
+    }
+
 }
