@@ -95,6 +95,30 @@ public class Chessboard {
                scanRow(ki, kj, 'q', +1);
     }
 
+    boolean canKingCheck(int ki, int kj) {
+        char king = pieces[ki][kj];
+        return canCheck(king, 'k', ki - 1, kj) ||
+               canCheck(king, 'k', ki - 1, kj - 1) ||
+               canCheck(king, 'k', ki - 1, kj + 1) ||
+               canCheck(king, 'k', ki, kj - 1) ||
+               canCheck(king, 'k', ki, kj + 1) ||
+               canCheck(king, 'k', ki + 1, kj - 1) ||
+               canCheck(king, 'k', ki + 1, kj + 1) ||
+               canCheck(king, 'k', ki + 1, kj);
+    }
+
+    boolean canKnightCheck(int ki, int kj) {
+        char king = pieces[ki][kj];
+        return canCheck(king, 'n', ki - 1, kj - 2) ||
+               canCheck(king, 'n', ki - 2, kj - 1) ||
+               canCheck(king, 'n', ki - 2, kj + 1) ||
+               canCheck(king, 'n', ki - 1, kj + 2) ||
+               canCheck(king, 'n', ki + 1, kj - 2) ||
+               canCheck(king, 'n', ki + 2, kj - 1) ||
+               canCheck(king, 'n', ki + 2, kj + 1) ||
+               canCheck(king, 'n', ki + 1, kj + 2);
+    }
+
     private boolean scanDiag(int ki, int kj, char piece, int id, int jd) {
         char king = pieces[ki][kj];
 
@@ -164,7 +188,7 @@ public class Chessboard {
                j >= 0 && j < pieces[0].length;
     }
 
-    private String status() {
+    String status() {
         if (blackKingInCheck()) {
             return "black king is in check";
         } else if (whiteKingInCheck()) {
@@ -174,12 +198,21 @@ public class Chessboard {
         }
     }
 
+    private boolean kingInCheck(int kingRow, int kingCol) {
+        return canPawnCheck(kingRow, kingCol) ||
+               canRookCheck(kingRow, kingCol) ||
+               canBishopCheck(kingRow, kingCol) ||
+               canQueenCheck(kingRow, kingCol) ||
+               canKingCheck(kingRow, kingCol) ||
+               canKnightCheck(kingRow, kingCol);
+    }
+
     private boolean whiteKingInCheck() {
-        return canPawnCheck(whiteKingRow, whiteKingCol);
+        return kingInCheck(whiteKingRow, whiteKingCol);
     }
 
     private boolean blackKingInCheck() {
-        return false;
+        return kingInCheck(blackKingRow, blackKingCol);
     }
 
     private static Chessboard readBoard() {

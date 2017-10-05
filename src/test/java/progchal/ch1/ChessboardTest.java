@@ -2,8 +2,7 @@ package progchal.ch1;
 
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ChessboardTest {
 
@@ -239,5 +238,37 @@ public class ChessboardTest {
         board.setRow(i++, "........");
         board.init();
         assertTrue(board.canQueenCheck(4, 4));
+    }
+
+    @Test
+    public void scenario1() {
+        int i = 0;
+        Chessboard board = new Chessboard();
+        board.setRow(i++, "..k.....");
+        board.setRow(i++, "ppp.pppp");
+        board.setRow(i++, "........");
+        board.setRow(i++, ".R...B..");
+        board.setRow(i++, "........");
+        board.setRow(i++, "........");
+        board.setRow(i++, "PPPPPPPP");
+        board.setRow(i++, "K.......");
+        board.init();
+        assertEquals("black king is in check", board.status());
+    }
+
+    @Test
+    public void scenario2() {
+        int i = 0;
+        Chessboard board = new Chessboard();
+        board.setRow(i++, "rnbqk.nr");
+        board.setRow(i++, "ppp..ppp");
+        board.setRow(i++, "....p...");
+        board.setRow(i++, "...p....");
+        board.setRow(i++, ".bPP....");
+        board.setRow(i++, ".....N..");
+        board.setRow(i++, "PP..PPPP");
+        board.setRow(i++, "RNBQKB.R");
+        board.init();
+        assertEquals("white king is in check", board.status());
     }
 }
