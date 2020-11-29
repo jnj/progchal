@@ -108,16 +108,11 @@ class Hand implements Comparable<Hand> {
     }
 
     private int highCard() {
-        switch (rank) {
-            case ThreeKind:
-                return countSet.getThreeOfAKindValue();
-            case FullHouse:
-                return countSet.getThreeOfAKindValue();
-            case FourKind:
-                return countSet.getFourOfAKindValue();
-            default:
-                return countSet.highCard();
-        }
+        return switch (rank) {
+            case ThreeKind, FullHouse -> countSet.getThreeOfAKindValue();
+            case FourKind -> countSet.getFourOfAKindValue();
+            default -> countSet.highCard();
+        };
     }
 
     private boolean isTwoPair() {
@@ -266,18 +261,13 @@ class Card implements Comparable<Card> {
         if (Character.isDigit(value)) {
             return Character.digit(value, 10);
         } else {
-            switch (value) {
-                case 'J':
-                    return 11;
-                case 'Q':
-                    return 12;
-                case 'K':
-                    return 13;
-                case 'A':
-                    return 14;
-                default:
-                    return 0;
-            }
+            return switch (value) {
+                case 'J' -> 11;
+                case 'Q' -> 12;
+                case 'K' -> 13;
+                case 'A' -> 14;
+                default -> 0;
+            };
         }
     }
 }

@@ -7,7 +7,7 @@ public class Lcd {
 
     private final int s;
     private final int lastRow;
-    private String output;
+    private final String output;
 
     public static void main(String[] args) {
         Lcd lcd = new Lcd(42902287, 5);
@@ -73,68 +73,38 @@ public class Lcd {
 
     private void drawTopRow(int n, StringBuilder buf) {
         switch (n) {
-            case 1:
-            case 4:
-                emptyAcross(buf);
-                return;
-            default:
-                lineAcross(buf);
+            case 1, 4 -> emptyAcross(buf);
+            default -> lineAcross(buf);
         }
     }
 
     private void drawBottomRow(int n, StringBuilder buf) {
         switch (n) {
-            case 1:
-            case 4:
-            case 7:
-                emptyAcross(buf);
-                return;
-            default:
-                lineAcross(buf);
+            case 1, 4, 7 -> emptyAcross(buf);
+            default -> lineAcross(buf);
         }
     }
 
     private void drawMiddleRow(int n, StringBuilder buf) {
         switch (n) {
-            case 1:
-            case 7:
-            case 0:
-                emptyAcross(buf);
-                return;
-            default:
-                lineAcross(buf);
+            case 1, 7, 0 -> emptyAcross(buf);
+            default -> lineAcross(buf);
         }
     }
 
     private void drawTopInteriorRow(int n, StringBuilder buf) {
         switch (n) {
-            case 1:
-            case 2:
-            case 3:
-            case 7:
-                edgeSegments(buf, false, true);
-                return;
-            case 5:
-            case 6:
-                edgeSegments(buf, true, false);
-                return;
-            default:
-                edgeSegments(buf, true, true);
+            case 1, 2, 3, 7 -> edgeSegments(buf, false, true);
+            case 5, 6 -> edgeSegments(buf, true, false);
+            default -> edgeSegments(buf, true, true);
         }
     }
 
     private void drawBottomInteriorRow(int n, StringBuilder buf) {
         switch (n) {
-            case 2:
-                edgeSegments(buf, true, false);
-                return;
-            case 6:
-            case 8:
-            case 0:
-                edgeSegments(buf, true, true);
-                return;
-            default:
-                edgeSegments(buf, false, true);
+            case 2 -> edgeSegments(buf, true, false);
+            case 6, 8, 0 -> edgeSegments(buf, true, true);
+            default -> edgeSegments(buf, false, true);
         }
     }
 
@@ -163,8 +133,6 @@ public class Lcd {
     }
 
     private void repeat(char c, int n, StringBuilder b) {
-        for (int i = 0; i < n; i++) {
-            b.append(c);
-        }
+        b.append(String.valueOf(c).repeat(Math.max(0, n)));
     }
 }

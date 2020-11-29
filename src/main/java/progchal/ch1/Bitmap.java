@@ -16,47 +16,41 @@ public class Bitmap {
     public static void main(String[] args) {
         Bitmap bitmap = new Bitmap();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        var moreInput = true;
 
-        while (true) {
+        while (moreInput) {
             try {
                 String line = reader.readLine();
-                bitmap.command(line);
+                moreInput = bitmap.command(line);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-    private void command(String cmd) {
+    private boolean command(String cmd) {
         String[] parts = cmd.split(" ");
         switch (parts[0]) {
+            case "X":
+                return false;
             case "I":
                 create(parseInt(parts[1]), parseInt(parts[2]));
-                break;
             case "C":
                 clear();
-                break;
             case "L":
                 label(parseInt(parts[1]), parseInt(parts[2]), parts[3].charAt(0));
-                break;
             case "V":
                 vLine(parseInt(parts[1]), parseInt(parts[2]), parseInt(parts[3]), parts[4].charAt(0));
-                break;
             case "H":
                 hLine(parseInt(parts[1]), parseInt(parts[2]), parseInt(parts[3]), parts[4].charAt(0));
-                break;
             case "K":
                 rect(parseInt(parts[1]), parseInt(parts[2]), parseInt(parts[3]), parseInt(parts[4]), parts[5].charAt(0));
-                break;
             case "F":
                 fill(parseInt(parts[1]), parseInt(parts[2]), parts[3].charAt(0));
-                break;
             case "S":
                 write(parts[1], System.out);
-                break;
-            case "X":
-                System.exit(0);
             default:
+                return true;
         }
     }
 
@@ -187,7 +181,7 @@ public class Bitmap {
         public boolean equals(Object o) {
             if (o == this) {
                 return true;
-            } else if (o == null || !(o instanceof Pixel)) {
+            } else if (!(o instanceof Pixel)) {
                 return false;
             } else {
                 Pixel that = (Pixel) o;

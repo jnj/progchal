@@ -38,5 +38,4 @@ public class Chapter1 {
 
         return count;
     }
-
 }

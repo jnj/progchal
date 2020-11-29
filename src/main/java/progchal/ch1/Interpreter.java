@@ -4,8 +4,8 @@ package progchal.ch1;
  * 1.6.6
  */
 class Interpreter {
-    private int[] ram = new int[1000];
-    private int[] reg = new int[10];
+    private final int[] ram = new int[1000];
+    private final int[] reg = new int[10];
     private boolean running;
     private int ramIndex;
     private int counter;

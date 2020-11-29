@@ -4,7 +4,7 @@ package progchal.ch1;
  * 1.6.2
  */
 class Minesweeper {
-    private static int MINE = -1;
+    private static final int MINE = -1;
     private final int w;
     private final int h;
     private final int[] field;

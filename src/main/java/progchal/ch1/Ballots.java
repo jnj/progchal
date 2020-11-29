@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 class Ballots {
-    private List<String> names = new ArrayList<>();
-    private List<Ballot> ballots = new ArrayList<>();
+    private final List<String> names = new ArrayList<>();
+    private final List<Ballot> ballots = new ArrayList<>();
 
     void addName(String name) {
         names.add(name);
@@ -72,7 +72,7 @@ class Ballots {
 }
 
 class Ballot {
-    private List<Integer> choices = new ArrayList<>();
+    private final List<Integer> choices = new ArrayList<>();
 
     int firstChoice() {
         return choices.get(0);
