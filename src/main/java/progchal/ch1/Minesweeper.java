@@ -18,11 +18,11 @@ class Minesweeper {
     void putMineAt(int row, int col) {
         field[row * w + col] = MINE;
 
-        for (int i = row - 1; i <= row + 1; i++) {
-            for (int j = col - 1; j <= col + 1; j++) {
+        for (var i = row - 1; i <= row + 1; i++) {
+            for (var j = col - 1; j <= col + 1; j++) {
                 if (i != row || j != col) {
                     if (i >= 0 && i < h && j >= 0 && j < w) {
-                        int index = i * w + j;
+                        var index = i * w + j;
                         if (field[index] != MINE) {
                             field[index]++;
                         }
@@ -33,16 +33,16 @@ class Minesweeper {
     }
 
     private char getCountAt(int row, int col) {
-        int count = field[row * w + col];
+        var count = field[row * w + col];
         return count == MINE ? '*' : Character.forDigit(count, 10);
     }
 
     @Override
     public String toString() {
-        StringBuilder b = new StringBuilder();
+        var b = new StringBuilder();
 
-        for (int i = 0; i < h; i++) {
-            for (int j = 0; j < w; j++) {
+        for (var i = 0; i < h; i++) {
+            for (var j = 0; j < w; j++) {
                 b.append(getCountAt(i, j));
             }
             if (i < h - 1) {

@@ -21,12 +21,12 @@ public class Lcd {
     }
 
     private String renderAllRows(int[] digits) {
-        StringBuilder allDigitsBuf = new StringBuilder();
+        var allDigitsBuf = new StringBuilder();
 
-        for (int row = 0; row < lastRow + 1; row++) {
-            StringBuilder rowBuf = new StringBuilder();
+        for (var row = 0; row < lastRow + 1; row++) {
+            var rowBuf = new StringBuilder();
 
-            for (int i = 0; i < digits.length; i++) {
+            for (var i = 0; i < digits.length; i++) {
                 drawRow(digits[i], i == digits.length - 1, row, rowBuf);
             }
 
@@ -37,11 +37,11 @@ public class Lcd {
     }
 
     private int[] toDigitsArray(int n) {
-        String s1 = String.valueOf(n);
-        int[] digits = new int[s1.length()];
-        int i = 0;
+        var s1 = String.valueOf(n);
+        var digits = new int[s1.length()];
+        var i = 0;
 
-        for (char c : s1.toCharArray()) {
+        for (var c : s1.toCharArray()) {
             digits[i++] = Character.digit(c, 10);
         }
         return digits;

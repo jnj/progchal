@@ -14,13 +14,13 @@ public class Bitmap {
     private int h;
 
     public static void main(String[] args) {
-        Bitmap bitmap = new Bitmap();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        var bitmap = new Bitmap();
+        var reader = new BufferedReader(new InputStreamReader(System.in));
         var moreInput = true;
 
         while (moreInput) {
             try {
-                String line = reader.readLine();
+                var line = reader.readLine();
                 moreInput = bitmap.command(line);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -29,7 +29,7 @@ public class Bitmap {
     }
 
     private boolean command(String cmd) {
-        String[] parts = cmd.split(" ");
+        var parts = cmd.split(" ");
         switch (parts[0]) {
             case "X":
                 return false;
@@ -60,22 +60,22 @@ public class Bitmap {
     }
 
     void fill(int xx, int yy, char c) {
-        int x = xx - 1;
-        int y = yy - 1;
-        Boolean[] region = new Boolean[w * h];
-        int index = y * w + x;
-        char regionColor = img[index];
+        var x = xx - 1;
+        var y = yy - 1;
+        var region = new Boolean[w * h];
+        var index = y * w + x;
+        var regionColor = img[index];
 
         Set<Pixel> seen = new HashSet<>();
         Queue<Pixel> queue = new LinkedList<>();
         queue.add(new Pixel(x, y));
 
         while (!queue.isEmpty()) {
-            Pixel p = queue.remove();
+            var p = queue.remove();
             seen.add(p);
             if (p.color() == regionColor) {
                 region[p.index()] = true;
-                for (Pixel n : p.neighbors()) {
+                for (var n : p.neighbors()) {
                     if (!seen.contains(n)) {
                         queue.add(n);
                     }
@@ -83,7 +83,7 @@ public class Bitmap {
             }
         }
 
-        for (int i = 0; i < region.length; i++) {
+        for (var i = 0; i < region.length; i++) {
             if (Boolean.TRUE == region[i]) {
                 img[i] = c;
             }
@@ -99,24 +99,24 @@ public class Bitmap {
     }
 
     void rect(int x1, int y1, int x2, int y2, char c) {
-        for (int i = x1; i <= x2; i++) {
-            for (int j = y1; j <= y2; j++) {
+        for (var i = x1; i <= x2; i++) {
+            for (var j = y1; j <= y2; j++) {
                 label(i, j, c);
             }
         }
     }
 
     void hLine(int x1, int x2, int y, char c) {
-        int xStart = x1 - 1;
-        int xStop = x2 - 1;
-        int r = (y - 1) * w;
-        for (int i = xStart; i <= xStop; i++) {
+        var xStart = x1 - 1;
+        var xStop = x2 - 1;
+        var r = (y - 1) * w;
+        for (var i = xStart; i <= xStop; i++) {
             img[r + i] = c;
         }
     }
 
     void vLine(int x, int y1, int y2, char c) {
-        for (int i = y1; i <= y2; i++) {
+        for (var i = y1; i <= y2; i++) {
             label(x, i, c);
         }
     }
@@ -134,10 +134,10 @@ public class Bitmap {
 
     @Override
     public String toString() {
-        StringBuilder buf = new StringBuilder();
+        var buf = new StringBuilder();
 
-        for (int r = 0; r < h; r++) {
-            for (int c = 0; c < w; c++) {
+        for (var r = 0; r < h; r++) {
+            for (var c = 0; c < w; c++) {
                 buf.append(img[r * w + c]);
             }
             if (r < h - 1) {
@@ -199,7 +199,7 @@ public class Bitmap {
 
         @Override
         public int hashCode() {
-            int x = 17;
+            var x = 17;
             x = 31 * x + this.x;
             x = 31 * x + this.y;
             return x;
@@ -227,7 +227,7 @@ public class Bitmap {
         }
 
         private void addIfValid(int x1, int y1, List<Pixel> neighbors, int x, int y) {
-            Pixel e = new Pixel(x1, y1);
+            var e = new Pixel(x1, y1);
             if (e.valid() && e.notEqual(x, y)) {
                 neighbors.add(e);
             }

@@ -13,16 +13,16 @@ public class Chessboard {
     private int blackKingCol;
 
     void setRow(int i, String contents) {
-        char[] chars = contents.trim().toCharArray();
+        var chars = contents.trim().toCharArray();
         assert chars.length == 8;
         System.arraycopy(chars, 0, pieces[i], 0, chars.length);
     }
 
     void init() {
-        for (int i = 0; i < pieces.length; i++) {
-            char[] piece = pieces[i];
-            for (int j = 0; j < piece.length; j++) {
-                char c = piece[j];
+        for (var i = 0; i < pieces.length; i++) {
+            var piece = pieces[i];
+            for (var j = 0; j < piece.length; j++) {
+                var c = piece[j];
                 if (c == 'k') {
                     blackKingRow = i;
                     blackKingCol = j;
@@ -36,8 +36,8 @@ public class Chessboard {
     }
 
     private boolean isEmpty() {
-        for (char[] row : pieces) {
-            for (char c : row) {
+        for (var row : pieces) {
+            for (var c : row) {
                 if (c != '.') {
                     return false;
                 }
@@ -48,10 +48,10 @@ public class Chessboard {
     }
 
     public static void main(String[] args) {
-        int gameNo = 1;
+        var gameNo = 1;
 
         while (true) {
-            Chessboard board = readBoard();
+            var board = readBoard();
 
             if (board.isEmpty()) {
                 return;
@@ -70,7 +70,7 @@ public class Chessboard {
     }
 
     boolean canPawnCheck(int ki, int kj) {
-        char king = pieces[ki][kj];
+        var king = pieces[ki][kj];
         return (canCheck(king, 'p', ki - 1, kj - 1) && king == 'K') ||
                (canCheck(king, 'p', ki - 1, kj + 1) && king == 'K') ||
                (canCheck(king, 'p', ki + 1, kj - 1) && king == 'k') ||
@@ -96,7 +96,7 @@ public class Chessboard {
     }
 
     boolean canKingCheck(int ki, int kj) {
-        char king = pieces[ki][kj];
+        var king = pieces[ki][kj];
         return canCheck(king, 'k', ki - 1, kj) ||
                canCheck(king, 'k', ki - 1, kj - 1) ||
                canCheck(king, 'k', ki - 1, kj + 1) ||
@@ -108,7 +108,7 @@ public class Chessboard {
     }
 
     boolean canKnightCheck(int ki, int kj) {
-        char king = pieces[ki][kj];
+        var king = pieces[ki][kj];
         return canCheck(king, 'n', ki - 1, kj - 2) ||
                canCheck(king, 'n', ki - 2, kj - 1) ||
                canCheck(king, 'n', ki - 2, kj + 1) ||
@@ -120,10 +120,10 @@ public class Chessboard {
     }
 
     private boolean scanDiag(int ki, int kj, char piece, int id, int jd) {
-        char king = pieces[ki][kj];
+        var king = pieces[ki][kj];
 
         for (int i = ki + id, j = kj + jd; isValidPosition(i, j); i += id, j += jd) {
-            char p = pieces[i][j];
+            var p = pieces[i][j];
 
             if (p == '.') {
                 continue;
@@ -136,10 +136,10 @@ public class Chessboard {
     }
 
     private boolean scanColumn(int ki, int kj, char piece, int delta) {
-        char king = pieces[ki][kj];
+        var king = pieces[ki][kj];
 
-        for (int i = ki + delta; isValidPosition(i, kj); i += delta) {
-            char p = pieces[i][kj];
+        for (var i = ki + delta; isValidPosition(i, kj); i += delta) {
+            var p = pieces[i][kj];
 
             if (p == '.') {
                 continue;
@@ -152,10 +152,10 @@ public class Chessboard {
     }
 
     private boolean scanRow(int ki, int kj, char piece, int delta) {
-        char king = pieces[ki][kj];
+        var king = pieces[ki][kj];
 
-        for (int i = kj + delta; isValidPosition(i, kj); i += delta) {
-            char p = pieces[ki][i];
+        for (var i = kj + delta; isValidPosition(i, kj); i += delta) {
+            var p = pieces[ki][i];
 
             if (p == '.') {
                 continue;
@@ -171,7 +171,7 @@ public class Chessboard {
         if (!isValidPosition(i, j)) {
             return false;
         }
-        char p = pieces[i][j];
+        var p = pieces[i][j];
         return sameKind(p, piece) && opposing(king, p);
     }
 
@@ -216,12 +216,12 @@ public class Chessboard {
     }
 
     private static Chessboard readBoard() {
-        Chessboard board = new Chessboard();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        var board = new Chessboard();
+        var reader = new BufferedReader(new InputStreamReader(System.in));
 
-        for (int i = 0; i < 8; i++) {
+        for (var i = 0; i < 8; i++) {
             try {
-                String line = reader.readLine();
+                var line = reader.readLine();
                 board.setRow(i, line);
             } catch (IOException e) {
                 e.printStackTrace();

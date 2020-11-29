@@ -7,13 +7,13 @@ public class Hartals {
     }
 
     private static int daysLost(int n, int h1, int... rest) {
-        int count = 0;
+        var count = 0;
 
-        for (int i = 1; i <= n; i++) {
-            boolean lost = isLostDay(h1, i);
+        for (var i = 1; i <= n; i++) {
+            var lost = isLostDay(h1, i);
 
             if (!lost) {
-                for (int h : rest) {
+                for (var h : rest) {
                     if (isLostDay(h, i)) {
                         lost = true;
                         break;
@@ -34,7 +34,7 @@ public class Hartals {
             return false;
         }
 
-        int mod7 = i % 7;
+        var mod7 = i % 7;
         return mod7 != 6 && mod7 != 0;
     }
 }

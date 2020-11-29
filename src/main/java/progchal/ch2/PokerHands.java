@@ -5,18 +5,18 @@ import java.util.List;
 
 public class PokerHands {
     public static void main(String[] args) {
-        Hand w = new Hand();
-        Hand b = new Hand();
+        var w = new Hand();
+        var b = new Hand();
 
-        for (String s : new String[]{"2H", "3D", "5S", "9C", "KD"}) {
+        for (var s : new String[]{"2H", "3D", "5S", "9C", "KD"}) {
             b.add(s);
         }
 
-        for (String s : new String[]{"2C", "3H", "4S", "8C", "AH"}) {
+        for (var s : new String[]{"2C", "3H", "4S", "8C", "AH"}) {
             w.add(s);
         }
 
-        int i = w.compareTo(b);
+        var i = w.compareTo(b);
         assert i > 0;
     }
 }
@@ -76,13 +76,13 @@ class Hand implements Comparable<Hand> {
 
     @Override
     public int compareTo(Hand o) {
-        int rankCmp = Integer.compare(rank.ordinal(), o.rank.ordinal());
+        var rankCmp = Integer.compare(rank.ordinal(), o.rank.ordinal());
 
         if (rankCmp != 0) {
             return rankCmp;
         }
 
-        int highCardCmp = Integer.compare(highCard(), o.highCard());
+        var highCardCmp = Integer.compare(highCard(), o.highCard());
 
         if (highCardCmp != 0) {
             return highCardCmp;
@@ -92,7 +92,7 @@ class Hand implements Comparable<Hand> {
             case Pair:
                 return Integer.compare(nonPairHighCard(), o.nonPairHighCard());
             case TwoPair:
-                int lesserPairCmp = Integer.compare(lesserPair(), o.lesserPair());
+                var lesserPairCmp = Integer.compare(lesserPair(), o.lesserPair());
                 return lesserPairCmp != 0 ? lesserPairCmp : Integer.compare(nonPairHighCard(), o.nonPairHighCard());
             default:
                 return 0;
@@ -143,9 +143,9 @@ class Hand implements Comparable<Hand> {
     }
 
     private boolean isStraight() {
-        int numValue = cards.get(0).numericValue();
+        var numValue = cards.get(0).numericValue();
 
-        for (int i = 1; i < 5; i++) {
+        for (var i = 1; i < 5; i++) {
             if (numValue++ != cards.get(i).numericValue()) {
                 return false;
             }
@@ -155,9 +155,9 @@ class Hand implements Comparable<Hand> {
     }
 
     private boolean isFlush() {
-        char suit = cards.get(0).suit;
+        var suit = cards.get(0).suit;
 
-        for (int i = 1; i < 5; i++) {
+        for (var i = 1; i < 5; i++) {
             if (cards.get(i).suit != suit) {
                 return false;
             }
@@ -176,13 +176,13 @@ class CountSet {
     }
 
     boolean isTwoPair() {
-        int x = getLowValueWithCount((byte) 2);
-        int y = getValueWithCount((byte) 2);
+        var x = getLowValueWithCount((byte) 2);
+        var y = getValueWithCount((byte) 2);
         return x != 0 && y != 0 && x != y;
     }
 
     private int getValueWithCount(byte count) {
-        for (int i = 14; i >= 2; i--) {
+        for (var i = 14; i >= 2; i--) {
             if (counts[i] == count) {
                 return i;
             }
@@ -192,7 +192,7 @@ class CountSet {
     }
 
     private int getLowValueWithCount(byte count) {
-        for (int i = 2; i < 15; i++) {
+        for (var i = 2; i < 15; i++) {
             if (counts[i] == count) {
                 return i;
             }
@@ -218,7 +218,7 @@ class CountSet {
     }
 
     int highCard() {
-        for (int i = 14; i >= 2; i--) {
+        for (var i = 14; i >= 2; i--) {
             if (counts[i] != 0) {
                 return i;
             }
@@ -228,7 +228,7 @@ class CountSet {
     }
 
     int nonPairHighCard() {
-        for (int i = 14; i >= 2; i--) {
+        for (var i = 14; i >= 2; i--) {
             if (counts[i] == 1) {
                 return i;
             }

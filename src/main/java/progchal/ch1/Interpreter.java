@@ -24,15 +24,14 @@ class Interpreter {
         running = true;
 
         while (running) {
-            int op = ram[ramIndex];
-            decode(op);
+            decode(ram[ramIndex]);
         }
     }
 
     private void decode(int op) {
         counter++;
-        int msd = d1(op);
-        int d = d2(op);
+        var msd = d1(op);
+        var d = d2(op);
         switch (msd) {
             case 0:
                 if (reg[d3(op)] != 0) {

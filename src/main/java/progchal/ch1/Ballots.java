@@ -18,16 +18,16 @@ class Ballots {
 
     String winner() {
         List<Integer> votes = new ArrayList<>();
-        for (int i = 0; i < names.size(); i++) {
+        for (var i = 0; i < names.size(); i++) {
             votes.add(0);
         }
 
-        double half = ballots.size() / 2.0;
+        var half = ballots.size() / 2.0;
 
         for (; ; ) {
             populateVotes(votes);
 
-            Optional<Integer> winner = findWinner(votes, half);
+            var winner = findWinner(votes, half);
             if (winner.isPresent()) {
                 return names.get(winner.get());
             }
@@ -37,24 +37,24 @@ class Ballots {
     }
 
     private void cull(List<Integer> votes) {
-        int min = votes.stream().mapToInt(i -> i).min().getAsInt();
+        var min = votes.stream().mapToInt(i -> i).min().getAsInt();
         List<Integer> toRemove = new ArrayList<>();
 
-        for (int index = 0; index < votes.size(); index++) {
+        for (var index = 0; index < votes.size(); index++) {
             if (votes.get(index) == min) {
                 toRemove.add(index);
             }
         }
 
-        for (Integer index : toRemove) {
-            for (Ballot ballot : ballots) {
+        for (var index : toRemove) {
+            for (var ballot : ballots) {
                 ballot.eliminate(index);
             }
         }
     }
 
     private Optional<Integer> findWinner(List<Integer> votes, double half) {
-        for (int i = 0; i < votes.size(); i++) {
+        for (var i = 0; i < votes.size(); i++) {
             if (votes.get(i) > half) {
                 return Optional.of(i);
             }
@@ -64,8 +64,8 @@ class Ballots {
     }
 
     private void populateVotes(List<Integer> votes) {
-        for (Ballot ballot : ballots) {
-            int i = ballot.firstChoice();
+        for (var ballot : ballots) {
+            var i = ballot.firstChoice();
             votes.set(i, votes.get(i) + 1);
         }
     }
@@ -79,10 +79,10 @@ class Ballot {
     }
 
     static Ballot fromText(String line) {
-        Ballot ballot = new Ballot();
-        String[] parts = line.split(" ");
+        var ballot = new Ballot();
+        var parts = line.split(" ");
 
-        for (String s : parts) {
+        for (var s : parts) {
             ballot.choices.add(Integer.parseInt(s.trim()) - 1);
         }
 

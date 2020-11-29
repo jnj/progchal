@@ -27,28 +27,28 @@ class Expenses {
         computeAvg();
         partition();
 
-        boolean done = false;
+        var done = false;
         totalExchanged = 0;
-        boolean pennyUsed = false;
+        var pennyUsed = false;
 
         while (!done) {
-            int prevExchanged = totalExchanged;
+            var prevExchanged = totalExchanged;
 
-            for (int i = lte.length - 1; i >= 0; i--) {
-                int lt = lte[i];
-                int delta = pennyUsed ? 1 : 0;
+            for (var i = lte.length - 1; i >= 0; i--) {
+                var lt = lte[i];
+                var delta = pennyUsed ? 1 : 0;
                 pennyUsed = true;
 
                 if (lt < avgCents + delta) {
-                    int needed = avgCents - lt;
-                    int taken = 0;
+                    var needed = avgCents - lt;
+                    var taken = 0;
 
-                    for (int j = 0; j < gt.length && taken != needed; j++) {
-                        int g = gt[j];
+                    for (var j = 0; j < gt.length && taken != needed; j++) {
+                        var g = gt[j];
 
                         if (g > avgCents + delta) {
-                            int remaining = needed - taken;
-                            int takeAmount = Math.min(g - avgCents, remaining);
+                            var remaining = needed - taken;
+                            var takeAmount = Math.min(g - avgCents, remaining);
                             gt[j] -= takeAmount;
                             lte[i] += takeAmount;
                             totalExchanged += takeAmount;
@@ -75,7 +75,7 @@ class Expenses {
     private void computeAvg() {
         double avg = 0;
 
-        for (int c : costs) {
+        for (var c : costs) {
             avg += c;
         }
 
@@ -89,10 +89,10 @@ class Expenses {
     }
 
     private void moveCent() {
-        int index = -1;
+        var index = -1;
 
-        for (int i = 0; i < costs.length; i++) {
-            int i1 = costs[i];
+        for (var i = 0; i < costs.length; i++) {
+            var i1 = costs[i];
             if (i1 > avgCents + 1) {
                 index = i;
                 break;
@@ -105,7 +105,7 @@ class Expenses {
     }
 
     private boolean allMeetAvg() {
-        for (int i1 : lte) {
+        for (var i1 : lte) {
             if (i1 < avgCents) {
                 return false;
             }
@@ -115,20 +115,20 @@ class Expenses {
     }
 
     private void partition() {
-        int lteCount = 0;
-        for (int cost : costs) {
+        var lteCount = 0;
+        for (var cost : costs) {
             if (cost <= avgCents) {
                 lteCount++;
             }
         }
 
-        int gtCount = costs.length - lteCount;
+        var gtCount = costs.length - lteCount;
         lte = new int[lteCount];
         gt = new int[gtCount];
-        int li = 0;
-        int gi = 0;
+        var li = 0;
+        var gi = 0;
 
-        for (int cost : costs) {
+        for (var cost : costs) {
             if (cost <= avgCents) {
                 lte[li++] = cost;
             } else {
